@@ -1,0 +1,27 @@
+<Connection>
+	<Poland>
+		<LN5>
+			<Host>IND-MHPDW100512</Host>
+			<Database>LN5</Database>
+			<Username>Chrisg102570</Username>
+			<Password>M8$tek!123</Password>
+			<Email>chrisgraham.christian@mastek.com</Email>
+		</LN5>
+		<LN35>
+			<Host>IND-MHPDW100512</Host>
+			<Database>LN35</Database>
+			<Username>Chrisg102570</Username>
+			<Password>M8$tek!123</Password>
+			<Email>chrisgraham.christian@mastek.com</Email>
+		</LN35>
+	</Poland>
+	<Romania>
+		<LN5>
+			<Host>IND-MHPDW100512</Host>
+			<Database>LN5</Database>
+			<Username>Chrisg102570</Username>
+			<Password>M8$tek!123</Password>
+			<Email>chrisgraham.christian@mastek.com</Email>
+		</LN5>
+	</Romania>
+</Connection>
