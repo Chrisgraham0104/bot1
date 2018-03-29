@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "test",
-    "start": "app2.js"
+    "start": "app.js"
   },
   "keywords": [
     "g"
