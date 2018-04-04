@@ -92,7 +92,7 @@ var bot = new builder.UniversalBot(connector, [
 
         var result = encodeURIComponent(query);
         var rtStr = getFunction(result);
-        var geturl = "http://localhost:8083/query/" + country + "-" + results.response;
+        var geturl = "https://ipfapi.azurewebsites.net/query/" + country + "-" + results.response;
         console.log('CNFS query url --> ' + geturl);
         var request = require('request');
 
@@ -219,7 +219,7 @@ bot.dialog('askExecution', [
         
         var result = encodeURIComponent(query);
         var rtStr = getFunction(result);
-        var geturl = "http://localhost:8083/query/" + country + "-" + branch + "/" + rtStr;
+        var geturl = "https://ipfapi.azurewebsites.net/query/" + country + "-" + branch + "/" + rtStr;
         console.log('query url --> ' + geturl);
         var request = require('request');
 
