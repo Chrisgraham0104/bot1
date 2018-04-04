@@ -9,6 +9,8 @@ function () {
 });  
 // chat connector for communicating with the Bot Framework Service 
 var connector = new builder.ChatConnector({     
+    /*appId: process.env.MICROSOFT_APP_ID,     
+    appPassword: process.env.MICROSOFT_APP_PASSWORD*/
     appId: process.env.MICROSOFT_APP_ID || 'dd0a1b2d-d32f-46dc-a668-c9e848f84b12',     
     appPassword: process.env.MICROSOFT_APP_PASSWORD || 'hFFQ488#+#okechbJRPY51~' 
 });
@@ -92,11 +94,13 @@ var bot = new builder.UniversalBot(connector, [
 
         var result = encodeURIComponent(query);
         var rtStr = getFunction(result);
-        var geturl = "https://ipfapi.azurewebsites.net/query/" + country + "-" + results.response;
+        //var geturl = "http://localhost:8083/query/" + country + "-" + results.response;
+        var geturl = "https://ipfapi.azurewebsites.net/query/" + country + "-" + results.response;        
         console.log('CNFS query url --> ' + geturl);
         var request = require('request');
 
         request(geturl, function (error, response, body) {
+            console.log('----------------------API CALL-------------------------')
             //session.send('into api call')    ;
             console.log('error:', error); // Print the error if one occurred
             console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
@@ -119,23 +123,25 @@ var bot = new builder.UniversalBot(connector, [
                         branch = 'LN'+body.recordset[0].Agency_Segment_Db_Id;
                         //branchMail = connectionJson[i].BranchMail;
                         console.log('New Branch :' + branch);
+                        session.beginDialog('askQuery');
                     }else{
                         flipflop=0;
+                        session.send('No Database Found');
                     }
                 }else{
                     sessions.send('Response Code : ' + response.statusCode + "<br/>"+ 'Response : ' + response);
                 }
             }
         });        
-        
-        if(flipflop == 0){
+        console.log('----------------------After API CALL-------------------------')
+       /* if(flipflop == 0){
             session.send('No Database Found');
         }else {           
 
 
            // session.beginDialog('askKey');        
            session.beginDialog('askQuery');
-        }   
+        }*/   
    
        
     },
@@ -219,6 +225,7 @@ bot.dialog('askExecution', [
         
         var result = encodeURIComponent(query);
         var rtStr = getFunction(result);
+        //var geturl = "http://localhost:8083/query/" + country + "-" + branch + "/" + rtStr;
         var geturl = "https://ipfapi.azurewebsites.net/query/" + country + "-" + branch + "/" + rtStr;
         console.log('query url --> ' + geturl);
         var request = require('request');
