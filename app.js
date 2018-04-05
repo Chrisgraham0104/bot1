@@ -273,7 +273,8 @@ bot.dialog('askExecution', [
 
                         fname = branch + '_' + customerid + fdate + '.xlsx';
                         ///xfilepath = '.\\' + configDataArr.Folder + '\\' + fname;
-                        xfilepath = '.\\' + 'xls_data' + '\\' + fname;
+                        //xfilepath = '.\\' + 'xls_data' + '\\' + fname;
+			    xfilepath = './' + 'xls_data' + '/' + fname;
                         console.log('xls file path --> ' + xfilepath);
                         fs.writeFileSync(xfilepath, xls, 'binary');
                         /* end generating excel file*/
