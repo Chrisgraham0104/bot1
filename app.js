@@ -276,52 +276,79 @@ bot.dialog('askExecution', [
                         //xfilepath = '.\\' + 'xls_data' + '\\' + fname;
 			    xfilepath = './' + 'xls_data' + '/' + fname;
                         console.log('xls file path --> ' + xfilepath);
-                        fs.writeFileSync(xfilepath, xls, 'binary');
-                        /* end generating excel file*/
+                        //fs.writeFileSync(xfilepath, xls, 'binary');
+                        /* azure storage call */
+                        var azure = require('azure-storage');
+                        var accountName = "demofinbe0c";
+                        var accessKey = "ws4xfWVmdNG574lq6CxZJN8/DSfkD9d5zd4CK/dM9YKOUC+C570eLpZJxYFR4ehGooOp1KEhhfwWRM9p+rlnqQ==";
+                        var host = "https://demofinbe0c.blob.core.windows.net/";
+                        var blobService = azure.createBlobService(accountName, accessKey, host);
 
-                        /* mail Function*/
-                        if((body.recordset[1] !== undefined)){
-                            branchMail = body.recordset[1][0].email;
-                        }   
-                        console.log('Sender Mail ---> ' + branchMail);
-                        attach = [];
-                        tmpAtt = {
-                        filename: fname,
-                        path: xfilepath
-                        };
-                        attach.push(tmpAtt);
-                        console.log('Attache --> ' + JSON.stringify(attach));
-                        nodemailer = require("nodemailer");
-                        smtpTransport = nodemailer.createTransport({
-                        service: "Gmail",
-                        auth: {
-                            user: 'hubotest23@gmail.com',
-                            pass: 'S$35@v$#@_'
-                        }
+                        blobService.createBlockBlobFromText('xls-data', fname, xls,  function(error, result, response){
+                            if (error) {
+                                console.log('Upload filed, open browser console for more detailed info.');
+                                console.log(error);
+                            } else {
+                                console.log('Upload successfully!');
+
+                                 /* mail Function*/
+                                    if((body.recordset[1] !== undefined)){
+                                        branchMail = body.recordset[1][0].email;
+                                    }   
+                                    console.log('Sender Mail ---> ' + branchMail);
+                                    attach = [];
+                                    tmpAtt = {
+                                    filename: fname,
+                                    path: xfilepath
+                                    };
+                                    attach.push(tmpAtt);
+                                    console.log('Attache --> ' + JSON.stringify(attach));
+                                    nodemailer = require("nodemailer");
+                                    smtpTransport = nodemailer.createTransport({
+                                    service: "Gmail",
+                                    auth: {
+                                        user: 'hubotest23@gmail.com',
+                                        pass: 'S$35@v$#@_'
+                                    }
+                                    });
+                                    mail = {
+                                        from: "hubotest23@gmail.com",
+                                        to: branchMail,
+                                        subject: branch + ' ' + customerid + ' Data File',
+                                        text: "Auto Generated Mail Contain Response Data",
+                                        //attachments: attach
+                                        attachments: [{
+                                            filename:fname, 
+                                            contentType: 'application/xlsx',
+                                            path: 'https://demofinbe0c.blob.core.windows.net/xls-data/' + fname
+                                        }]
+                                    };
+                                    smtpTransport.sendMail(mail, function(error, response) {
+                                    if (error) {
+                                        console.log(error);
+                                    } else {
+                                        console.log("Message sent: " + response.response);
+                                    }
+                                    return smtpTransport.close();
+                                    });
+                                    /* end Mail function*/
+                                        
+                                    //session.send(template);
+                                    //session.send('Type "Bye" To Exit from current session');
+                                    msg = template + "<br/>" + 'Type "Bye" or "1" To Exit from current session';
+                                //builder.Prompts.text(session,msg);
+                                builder.Prompts.choice(session, msg, ["Bye"]);
+                                    //session.endDialog(); 
+
+                            }
                         });
-                        mail = {
-                        from: "hubotest23@gmail.com",
-                        to: branchMail,
-                        subject: branch + ' ' + customerid + ' Data File',
-                        text: "Auto Generated Mail Contain Response Data",
-                        attachments: attach
-                        };
-                        smtpTransport.sendMail(mail, function(error, response) {
-                        if (error) {
-                            console.log(error);
-                        } else {
-                            console.log("Message sent: " + response.response);
-                        }
-                        return smtpTransport.close();
-                        });
-                        /* end Mail function*/
-                            
-                        //session.send(template);
-                        //session.send('Type "Bye" To Exit from current session');
-                        msg = template + "<br/>" + 'Type "Bye" or "1" To Exit from current session';
-                       //builder.Prompts.text(session,msg);
-                       builder.Prompts.choice(session, msg, ["Bye"]);
-                        //session.endDialog(); 
+
+
+                        /* end storage call */
+
+
+                        /* end generating excel file*/
+                        
                     }else{
                         var noStr = 'Kindly update Search Parameters';
                         msg = noStr + "<br/>" + 'Type "Bye" or "1" To Exit from current session';
