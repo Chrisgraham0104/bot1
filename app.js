@@ -308,6 +308,8 @@ bot.dialog('askExecution', [
                                     nodemailer = require("nodemailer");
                                     smtpTransport = nodemailer.createTransport({
                                     service: "Gmail",
+				    host: smtp.gmail.com,
+            			    port: 465,
                                     auth: {
                                         user: 'hubotest23@gmail.com',
                                         pass: 'S$35@v$#@_'
