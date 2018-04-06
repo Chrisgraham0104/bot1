@@ -289,7 +289,7 @@ bot.dialog('askExecution', [
                                 console.log('Upload filed, open browser console for more detailed info.');
                                 console.log(error);
                             } else {
-                                console.log('Upload successfully!');
+                                   console.log('Upload successfully!');
 
                                  /* mail Function*/
                                     if((body.recordset[1] !== undefined)){
@@ -297,9 +297,11 @@ bot.dialog('askExecution', [
                                     }   
                                     console.log('Sender Mail ---> ' + branchMail);
                                     attach = [];
+				    xfilepath = 'https://demofinbe0c.blob.core.windows.net/xls-data/' + fname
                                     tmpAtt = {
-                                    filename: fname,
-                                    path: xfilepath
+                                    	filename: fname,
+					contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+                                    	path: xfilepath
                                     };
                                     attach.push(tmpAtt);
                                     console.log('Attache --> ' + JSON.stringify(attach));
@@ -316,12 +318,7 @@ bot.dialog('askExecution', [
                                         to: branchMail,
                                         subject: branch + ' ' + customerid + ' Data File',
                                         text: "Auto Generated Mail Contain Response Data",
-                                        //attachments: attach
-                                        attachments: [{
-                                            filename:fname, 
-                                            contentType: 'application/xlsx',
-                                            path: 'https://demofinbe0c.blob.core.windows.net/xls-data/' + fname
-                                        }]
+                                        attachments: attach                                        
                                     };
                                     smtpTransport.sendMail(mail, function(error, response) {
                                     if (error) {
