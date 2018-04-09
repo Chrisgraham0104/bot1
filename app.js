@@ -307,16 +307,22 @@ bot.dialog('askExecution', [
                                     console.log('Attache --> ' + JSON.stringify(attach));
                                     nodemailer = require("nodemailer");
                                     smtpTransport = nodemailer.createTransport({
-                                    service: "Gmail",
-				    host: "smtp.gmail.com",
+                                    /*service: "Gmail",
+				    host: "smtp.gmail.com",*/
+				    host: "smtp-mail.outlook.com", // hostname
+				    secureConnection: false, // TLS requires secureConnection to be false
+				    port: 587, // port for secure SMTP
+				    tls: {
+				       ciphers:'SSLv3'
+				    },
                                     auth: {
-                                        user: 'hubotest23@gmail.com',
+                                        user: 'hubotest23@outlook.com',
                                         pass: 'S$35@v$#@_'
                                     }
 					  
                                     });
                                     mail = {
-                                        from: "hubotest23@gmail.com",
+                                        from: "hubotest23@outlook.com",
                                         to: branchMail,
                                         subject: branch + ' ' + customerid + ' Data File',
                                         text: "Auto Generated Mail Contain Response Data",
