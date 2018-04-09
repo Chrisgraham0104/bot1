@@ -307,22 +307,13 @@ bot.dialog('askExecution', [
                                     console.log('Attache --> ' + JSON.stringify(attach));
                                     nodemailer = require("nodemailer");
                                     smtpTransport = nodemailer.createTransport({
-                                    /*service: "Gmail",
+                                    service: "Gmail",
 				    host: "smtp.gmail.com",
                                     auth: {
                                         user: 'hubotest23@gmail.com',
                                         pass: 'S$35@v$#@_'
-                                    }*/
-					    host: "smtp-mail.outlook.com",
-					    secureConnection: false,
-					    port: 587,
-					    tls: {
-					       ciphers:'SSLv3'
-					    },
-					    auth: {
-						user: 'chrisgraham.christian@mastek.com',
-						pass: 'M8$tek!123'
-					    }
+                                    }
+					  
                                     });
                                     mail = {
                                         from: "hubotest23@gmail.com",
