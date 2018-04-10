@@ -297,7 +297,8 @@ bot.dialog('askExecution', [
                                     }   
                                     console.log('Sender Mail ---> ' + branchMail);
                                     attach = [];
-				    xfilepath = 'https://demofinbe0c.blob.core.windows.net/xls-data/' + fname
+				    //xfilepath = 'https://demofinbe0c.blob.core.windows.net/xls-data/' + fname
+				    xfilepath = 'https://demofinbe0c.blob.core.windows.net/xls-data/';
                                     tmpAtt = {
                                     	filename: fname,
 					path: xfilepath                                    	
