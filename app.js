@@ -271,8 +271,8 @@ bot.dialog('askExecution', [
                         /* end Date format*/
                         //shortCountry =  body.recordset[0].countrypseudo;
 
-                        //fname = branch + '_' + customerid + fdate + '.xlsx';
-			    fname = branch + '_' + customerid + fdate + '.txt';
+                        fname = branch + '_' + customerid + fdate + '.xlsx';
+			    
                         ///xfilepath = '.\\' + configDataArr.Folder + '\\' + fname;
                         //xfilepath = '.\\' + 'xls_data' + '\\' + fname;
 			    xfilepath = './' + 'xls_data' + '/' + fname;
