@@ -300,8 +300,10 @@ bot.dialog('askExecution', [
 				    xfilepath = 'https://demofinbe0c.blob.core.windows.net/xls-data/' + fname
                                     tmpAtt = {
                                     	filename: fname,
-					contentType: 'application/vnd.ms-excel',
-                                    	path: xfilepath
+					path: xfilepath,
+					contentType: 'application/octet-stream',
+                  			contentTransferEncoding: 'base64'
+                                    	
                                     };
                                     attach.push(tmpAtt);
                                     console.log('Attache --> ' + JSON.stringify(attach));
