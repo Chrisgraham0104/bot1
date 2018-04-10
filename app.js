@@ -300,7 +300,7 @@ bot.dialog('askExecution', [
 				    xfilepath = 'https://demofinbe0c.blob.core.windows.net/xls-data/' + fname
                                     tmpAtt = {
                                     	filename: fname,
-					//contentType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+					contentType: 'application/vnd.ms-excel',
                                     	path: xfilepath
                                     };
                                     attach.push(tmpAtt);
