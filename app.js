@@ -376,7 +376,7 @@ bot.dialog('askExecution', [
                                     //session.endDialog(); 
 
                             }
-                        });
+                        }));
 
 
                         /* end storage call */
