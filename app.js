@@ -246,12 +246,17 @@ bot.dialog('askExecution', [
                     if((body.recordset[0] !== undefined)){
                         keys = Object.keys(body.recordset[0]);
                         template = 'Result of Search : <br/> ';
+			EXcolumns = [];
+                        Xcolumns='';    
                         _ref = body.recordset[0];
                         for (k in _ref) {
                         v = _ref[k];
                         template = template + k + ' : ' + v + '<br/>';
+			Xcolumns += '{header:"'+ k +'", key :"'+ k+'"},'; 				
                         }   
-
+			EXcolumns.push(Xcolumns.substring(0,(Xcolumns.length-1)));
+                        console.log('Keys -->' + JSON.parse(JSON.stringify(EXcolumns)));
+			    
                         /* generating excel file*/
                         fs = require('fs');
                         json2xls = require("json2xls");
@@ -284,8 +289,32 @@ bot.dialog('askExecution', [
                         var accessKey = "ws4xfWVmdNG574lq6CxZJN8/DSfkD9d5zd4CK/dM9YKOUC+C570eLpZJxYFR4ehGooOp1KEhhfwWRM9p+rlnqQ==";
                         var host = "https://demofinbe0c.blob.core.windows.net/";
                         var blobService = azure.createBlobService(accountName, accessKey, host);
+			
+			var Excel = require('exceljs');
+			    
+                        let options = {
+                            useStyles: true,
+                            useSharedStrings: true
+                          }
+                          
+                        let workbook = new Excel.stream.xlsx.WorkbookWriter(options);
+                        let sheet = workbook.addWorksheet('myWorksheet');
+                       //  console.log('js to xls -->' + xls)   
+                        //sheet.columns = xls;
+                        sheet.columns = [{header:"Stock_Item_Id", key :"Stock_Item_Id"},{header:"Stock_Item_Db_Id", key :"Stock_Item_Db_Id"},{header:"Acknowledged_Datetime", key :"Acknowledged_Datetime"},{header:"Acknowledged_Representative_Id", key :"Acknowledged_Representative_Id"},{header:"Agreement_Db_Id", key :"Agreement_Db_Id"},{header:"Agreement_Id", key :"Agreement_Id"},{header:"Allocation_Date", key :"Allocation_Date"},{header:"Company_Bank_Account_Id", key :"Company_Bank_Account_Id"},{header:"Company_Code", key :"Company_Code"},{header:"Deleted_Flag", key :"Deleted_Flag"},{header:"Inherent_Value", key :"Inherent_Value"},{header:"Non_Digited_Stock_Item_Num", key :"Non_Digited_Stock_Item_Num"},{header:"Pending_Alloc_Representative_Id", key :"Pending_Alloc_Representative_Id"},{header:"Pending_Transfer_Representative_Id", key :"Pending_Transfer_Representative_Id"},{header:"Responsible_Representative_Id", key :"Responsible_Representative_Id"},{header:"Stock_Item_Num", key :"Stock_Item_Num"},{header:"Stock_Item_Status_Code", key :"Stock_Item_Status_Code"},{header:"Stock_Type_Code", key :"Stock_Type_Code"},{header:"Transferred_From_Representative_Id", key :"Transferred_From_Representative_Id"},{header:"Value", key :"Value"},{header:"Dt_Generation_Id", key :"Dt_Generation_Id"},{header:"Dt_Transaction_Id", key :"Dt_Transaction_Id"},{header:"Dt_Write_Bln", key :"Dt_Write_Bln"},{header:"Last_Updated_Datetime", key :"Last_Updated_Datetime"},{header:"Last_Updated_Id", key :"Last_Updated_Id"},{header:"Last_Updated_Timestamp", key :"Last_Updated_Timestamp"},{header:"Cancellation_Date", key :"Cancellation_Date"},{header:"Archive_Box_Reference", key :"Archive_Box_Reference"},{header:"Booklet_Id", key :"Booklet_Id"},{header:"Booklet_Db_Id", key :"Booklet_Db_Id"},{header:"Cancellation_Reason", key :"Cancellation_Reason"}];
+                        //var xcol = [];
+                       // xcol.push(JSON.parse(JSON.stringify(EXcolumns)));
+                        //xcol.push(EXcolumns);
+                        //console.log('xcol' + xcol);
+                        //sheet.columns = xcol;
+                        //var wbRows = xls;
+                        var wbRows = json;
+                        sheet.addRow(wbRows);
 
-                        blobService.createBlockBlobFromText('xls-data', fname, xls,  function(error, result, response){
+                        sheet.commit()
+                        workbook.commit()
+                        workbook.stream.pipe(blobService.createWriteStreamToBlockBlob('xls-data',fname,function(error, result, response){
+                        //blobService.createBlockBlobFromText('xls-data', fname, xls,  function(error, result, response){
                             if (error) {
                                 console.log('Upload filed, open browser console for more detailed info.');
                                 console.log(error);
