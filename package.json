@@ -2,10 +2,10 @@
   "name": "botforchris",
   "version": "1.0.0",
   "description": "Test",
-  "main": "app1.js",
+  "main": "app.js",
   "scripts": {
     "test": "test",
-    "start": "app1.js"
+    "start": "app.js"
   },
   "keywords": [
     "g"
